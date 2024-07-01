@@ -1,5 +1,5 @@
 const express = require('express')
-const {users} = require('../Models/user')
+const {users} = require('./Models/user')
 const db = require('./db').default;
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -29,7 +29,7 @@ app.get('/fetchdata/:workType',async (req,res)=>{
 })
 
 
-const userRoutes = require('./../routes/userRoutes')
+const userRoutes = require('./routes/userRoutes')
 app.use('/users',userRoutes)
 
 
