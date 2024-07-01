@@ -2,8 +2,15 @@ require('dotenv').config();
 const mongoose = require('mongoose')
 
 
-const MONGODB_URL = process.env.MONGODB_URL
-mongoose.connect(MONGODB_URL)
+// mongoose.connect(MONGODB_URI)
+
+const MONGODB_URI = process.env.MONGODB_URI
+
+
+async function connectToDatabase(MONGODB_URI){
+    await mongoose.connect(MONGODB_URI)
+}
+connectToDatabase(MONGODB_URI)
 
 const db = mongoose.connection;
 
@@ -19,4 +26,4 @@ db.on('error',(err)=>{
     console.log(`error occured to data base`+ err)
 })
 
-module.exports = db
+module.exports =  db

@@ -1,10 +1,11 @@
 const express = require('express')
 const {users} = require('../Models/user')
-const db = require('./db');
+const db = require('./db').default;
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = new express();
+app.use(bodyParser.json());
 app.use(bodyParser.json());
 
 
@@ -32,7 +33,8 @@ const userRoutes = require('./../routes/userRoutes')
 app.use('/users',userRoutes)
 
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT 
+
 app.listen(PORT,()=>{
-    console.log('Listening to port 3000')
+    console.log(`Listening to port ${PORT}`)
 })

@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express')
 const router = express.Router()
 const {users} = require('../Models/user')
-const db = require('../signup/db')
+const db = require('../signup/db').default
 
 router.use(bodyParser.json());
 
