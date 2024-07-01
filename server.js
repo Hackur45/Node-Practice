@@ -1,33 +1,40 @@
-const db = require('./db')
-const {Person} = require('./Models/person')  // curly braces {} are used to destructure the data
 const express = require('express')
-
-
+const {users} = require('../Models/user')
+const db = require('./db').default;
+const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = new express();
-app.use(express.json());        //Middleware is important 
+app.use(bodyParser.json());
+app.use(bodyParser.json());
+
 
 app.get('/',(req,res)=>{
-    res.send("This is server.js")
+    res.send(`This is the self made user architecture\nPlease port to '/users'`)
 })
 
-app.post('/person',async (req,res)=>{
+app.get('/fetchdata/:workType',async (req,res)=>{
     try{
-        const data = req.body
-        const newperson = new Person(data);
-
-        const response = await newperson.save();
-
-        console.log('data saved');
-        res.status(200).json(response)
+        const workType = req.params.workType;
+        const data = await users.find({profession:workType});
+        if(data.length === 0){
+            console.log('Data not found')
+            return res.status(404).json({error:`data not found`})    
+        }
+        res.json(data);
+        console.log('Data fetched')
     }catch(err){
-        console.error(err);
-        res.status(500).json({error:'Internal server error'})
+        res.send(err);
     }
 })
 
 
-app.listen(3000,()=>{
-    console.log('Listening port 3000')
-})
+const userRoutes = require('./../routes/userRoutes')
+app.use('/users',userRoutes)
 
+
+const PORT = process.env.PORT 
+
+app.listen(PORT,()=>{
+    console.log(`Listening to port ${PORT}`)
+})

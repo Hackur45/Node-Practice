@@ -1,29 +1,29 @@
-const mongoose =  require('mongoose')
-
-//mongo connection url
-const mongoUrl = "mongodb://localhost:27017/myDB"
+require('dotenv').config();
+const mongoose = require('mongoose')
 
 
-// setup connection
-mongoose.connect(mongoUrl)
+// mongoose.connect(MONGODB_URI)
 
-//Get default connections
-//Mongoose maintains a default connection object representing the mongoDB connection
+const MONGODB_URI = process.env.MONGODB_URI
 
-const db = mongoose.connection;      //This will act as the bridge between server and server
 
-db.on('connected',()=>{  
-    console.log('connected to database')
+async function connectToDatabase(MONGODB_URI){
+    await mongoose.connect(MONGODB_URI)
+}
+connectToDatabase(MONGODB_URI)
+
+const db = mongoose.connection;
+
+db.on('connected',()=>{
+    console.log(`data base connected`)
 })
 
 db.on('disconnected',()=>{
-    console.log('disconnected to database')
+    console.log(`data base disconnected`)
 })
 
 db.on('error',(err)=>{
-    console.log('error to database' + err)
+    console.log(`error occured to data base`+ err)
 })
 
-module.exports={
-    db
-}
+module.exports =  db
