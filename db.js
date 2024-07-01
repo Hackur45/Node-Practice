@@ -3,6 +3,7 @@ const mongoose =  require('mongoose')
 //mongo connection url
 const mongoUrl = "mongodb://localhost:27017/myDB"
 
+
 // setup connection
 mongoose.connect(mongoUrl)
 
